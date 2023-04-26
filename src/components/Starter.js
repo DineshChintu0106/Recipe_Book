@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './main.css'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import * as Icon from 'react-bootstrap-icons';
+import { useSelector,useDispatch } from 'react-redux';
+import { starterRecipes,starterFavorite,addObject } from '../Actions/actions';
 
 export default function Starter() {
     const [recipes, setRecipes] = useState([]);
@@ -10,11 +13,14 @@ export default function Starter() {
     const [filter, setFilter] = useState([]);
     const [message, setMessage] = useState('')
 
+    const selector = useSelector(state => state.starterRecipes)
+    const dispatch = useDispatch()
+
     const handleSearch = async (e) => {
         const { value } = e.target
         setSearch(value)
         if (search === '') {
-            setFilter(recipes)
+            setFilter(selector)
         } else {
             const filteredData = await recipes.filter(recipe => recipe.strMeal.toLowerCase().includes(value))
             const p = new Promise((resolve, reject) => {
@@ -34,11 +40,28 @@ export default function Starter() {
 
     }
 
+    const handleFavorite = (id) => {
+        const promise = new Promise((resolve, reject) => {
+            dispatch(starterFavorite(id));
+            resolve();
+          })
+          promise.then(() => {
+            selector.filter((each) => {
+              if (each.isFavorite) {
+                dispatch(addObject(each))
+              }
+              return dispatch(addObject(each))
+            })
+          })
+    }
+
 
 
     const getData = async () => {
         await axios.get("https://themealdb.com/api/json/v1/1/filter.php?c=Starter").then((response) => {
-            setRecipes(response.data.meals)
+            dispatch(starterRecipes(response.data.meals.map(eachRecipe => {
+                return { ...eachRecipe, isFavorite: false }
+              })))
             setLoading(false)
         }).catch((e) => {
             console.log(e.message)
@@ -47,7 +70,7 @@ export default function Starter() {
 
     useEffect(() => {
         getData();
-    })
+    },[])
 
     return (
         <div className="d-flex flex-column gap-3">
@@ -58,11 +81,12 @@ export default function Starter() {
             </div>
             {loading ? <h1 className='text-light' align="center">Loading...</h1> :
                 <div className='d-flex flex-wrap justify-content-center gap-5'>
-                    {search === '' ? recipes.map((reciep) => {
+                    {search === '' ? selector.map((reciep) => {
                         return <div className='reciep-container' key={reciep.idMeal}>
                             <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
                             <p>{reciep.strMeal}</p>
                             <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
+                            {reciep.isFavorite ? <div className='bookmark' onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div className='bookmark' onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
                         </div>
                     }) :
                         filter.map((recipe) => {
@@ -70,6 +94,7 @@ export default function Starter() {
                                 <img src={recipe.strMealThumb} alt={recipe.idMeal} className='image-reciep' />
                                 <p>{recipe.strMeal}</p>
                                 <Link to={`/recipedetails/${recipe.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
+                                {recipe.isFavorite ? <div className='bookmark' onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div className='bookmark' onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
                             </div>
                         })}
                     {message.length > 0 && <h1 className='text text-light'>{message}</h1>}

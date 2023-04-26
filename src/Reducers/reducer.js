@@ -2,9 +2,12 @@ const initialState = {
     isLogin: false,
     savedRecipe: [],
     chickenRecipes: [],
-    beefRecipes : [],
-    userdata:[{username:"Test",email:"test@gmail.com",password:"test"}],
-    activeUser : {}
+    beefRecipes: [],
+    seaFoodRecipes: [],
+    vegetarianRecipes: [],
+    starterRecipes: [],
+    userdata: [{ username: "Test", email: "test@gmail.com", password: "test" }],
+    activeUser: {}
 };
 
 const counterReducer = (state = initialState, action) => {
@@ -32,19 +35,34 @@ const counterReducer = (state = initialState, action) => {
         case "BEEFRECIPES":
             return {
                 ...state,
-                beefRecipes:action.payload
+                beefRecipes: action.payload
+            }
+        case "SEAFOODRECIPES":
+            return {
+                ...state,
+                seaFoodRecipes: action.payload
+            }
+        case "VEGETARIANRECIPES":
+            return {
+                ...state,
+                vegetarianRecipes: action.payload
+            }
+        case "STARTERRECIPES":
+            return {
+                ...state,
+                starterRecipes: action.payload
             }
         case 'REGISTER':
             return {
                 ...state,
-                userdata: [...state.userdata,action.payload]
+                userdata: [...state.userdata, action.payload]
             }
         case "FAVORITE":
             return {
                 ...state,
                 chickenRecipes: [...state.chickenRecipes.map(each => {
                     if (each.idMeal === action.payload) {
-                        return {...each,isFavorite : !each.isFavorite}
+                        return { ...each, isFavorite: !each.isFavorite }
                     }
                     return each
                 })]
@@ -54,15 +72,45 @@ const counterReducer = (state = initialState, action) => {
                 ...state,
                 beefRecipes: [...state.beefRecipes.map(each => {
                     if (each.idMeal === action.payload) {
-                        return {...each,isFavorite : !each.isFavorite}
+                        return { ...each, isFavorite: !each.isFavorite }
                     }
                     return each
                 })]
             }
+        case "SEAFOODFAVORITE":
+            return {
+                ...state,
+                seaFoodRecipes: [...state.seaFoodRecipes.map(each => {
+                    if (each.idMeal === action.payload) {
+                        return { ...each, isFavorite: !each.isFavorite }
+                    }
+                    return each
+                })]
+            }
+        case "VEGETARIANFAVORITE":
+            return {
+                ...state,
+                vegetarianRecipes: [...state.vegetarianRecipes.map(each => {
+                    if (each.idMeal === action.payload) {
+                        return { ...each, isFavorite: !each.isFavorite }
+                    }
+                    return each
+                })]
+            }
+            case "STARTERFAVORITE":
+                return {
+                    ...state,
+                    starterRecipes: [...state.starterRecipes.map(each => {
+                        if (each.idMeal === action.payload) {
+                            return { ...each, isFavorite: !each.isFavorite }
+                        }
+                        return each
+                    })]
+                }
         case "ACTIVEUSER":
             return {
                 ...state,
-                activeUser:action.payload
+                activeUser: action.payload
             }
         default:
             return state;

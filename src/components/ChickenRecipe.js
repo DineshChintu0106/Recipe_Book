@@ -111,12 +111,9 @@ export default function ChickenRecipe(props) {
               <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
 
               <p>{reciep.strMeal}</p>
+              <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
+              {reciep.isFavorite ? <div className='bookmark' onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div className='bookmark' onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
 
-              <div className='d-flex justify-space-between'>
-                <div></div>
-                <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
-                {reciep.isFavorite ? <div onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
-              </div>
 
             </div>
           }) :
@@ -124,8 +121,9 @@ export default function ChickenRecipe(props) {
               return <div className='reciep-container' key={recipe.idMeal}>
                 <img src={recipe.strMealThumb} alt={recipe.idMeal} className='image-reciep' />
                 <p>{recipe.strMeal}</p>
+
                 <Link to={`/recipedetails/${recipe.idMeal}`}><button className='btn btn-danger' style={{ height: "40px" }}>Get Details</button></Link>
-                {recipe.isFavorite ? <div onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
+                {recipe.isFavorite ? <div className='bookmark' onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div className='bookmark' onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
               </div>
             })}
           {message.length > 0 && <h1 className='text text-light'>{message}</h1>}

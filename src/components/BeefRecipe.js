@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import * as Icon from 'react-bootstrap-icons'
-import {useSelector,useDispatch} from 'react-redux'
-import {beefFavorite,beefRecipes,addObject} from '../Actions/actions'
+import { useSelector, useDispatch } from 'react-redux'
+import { beefFavorite, beefRecipes, addObject } from '../Actions/actions'
 
 export default function BeefRecipe() {
   const [loading, setLoading] = useState(true);
@@ -44,7 +44,7 @@ export default function BeefRecipe() {
       dispatch(beefFavorite(id));
       resolve();
     })
-    promise.then(()=> {
+    promise.then(() => {
       selector.map((each) => {
         if (each.isFavorite) {
           dispatch(addObject(each))
@@ -83,7 +83,8 @@ export default function BeefRecipe() {
               <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
               <p>{reciep.strMeal}</p>
               <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
-              {reciep.isFavorite ? <div onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
+              {reciep.isFavorite ? <div className='bookmark' onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div className='bookmark' onClick={() => { handleFavorite(reciep.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
+
             </div>
           }) :
             filter.map((recipe) => {
@@ -91,7 +92,9 @@ export default function BeefRecipe() {
                 <img src={recipe.strMealThumb} alt={recipe.idMeal} className='image-reciep' />
                 <p>{recipe.strMeal}</p>
                 <Link to={`/recipedetails/${recipe.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
-                {recipe.isFavorite ? <div onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
+                {recipe.isFavorite ? <div className='bookmark' onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.BookmarkFill className='text-danger' height={32} width={30} /></div> : <div className='bookmark' onClick={() => { handleFavorite(recipe.idMeal) }}><Icon.Bookmark height={32} width={30} /></div>}
+
+
               </div>
             })}
           {message.length > 0 && <h1 className='text text-light'>{message}</h1>}
