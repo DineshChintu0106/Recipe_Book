@@ -24,7 +24,7 @@ export default function Profile() {
         <Link to={'/home'}><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdKHKtDqeJFf5n3p0r7ZaEygQvBYK7R9qGsukhl9EFa1z10HKmD328xdtYsCidDQovVP4&usqp=CAU' alt='recipe' className='home-icon' /></Link>
         <div className='d-flex flex-row gap-4 m-2'>
           <Link to={'/home'} className='links'>Home</Link>
-          <Link className='links'>Saved recipe's</Link>
+          <Link className='links' to={'/savedrecipes'}>Saved recipe's</Link>
           <Link to={'/profile'} className='links'>Profile</Link>
         </div>
       </nav>
