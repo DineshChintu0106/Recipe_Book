@@ -1,26 +1,41 @@
-import React,{useEffect, useState} from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as Icon from 'react-bootstrap-icons'
+import { favorite,beefFavorite } from '../Actions/actions'
+import { useDispatch } from 'react-redux'
+
 
 export default function SavedRecips() {
-    const [state,setState] = useState([])
 
-    const selector = useSelector(state => state.chickenRecipes)
+
+    const selector = useSelector(state => state.chickenRecipes.filter(each => each.isFavorite === true))
+    const savedBeef = useSelector(state => state.beefRecipes.filter(each => each.isFavorite === true))
+    const dispatch = useDispatch()
+
     
-    const getData = () => {
-        const filter = selector.filter((each) => {
-          if (each.isFavorite) {
-            return each
-          }
-        })
-        setState(filter)
+    // const getData = () => {
+    //     selector.filter((each) => {
+    //       if (each.isFavorite) {
+    //         dispatch(addObject(each))
+    //         return each
+    //       }
+    //       return each.isFavorite
+    //     })
+    // }
+
+
+    // useEffect(()=> {
+    //    getData();
+    // },[])
+
+    const handleFavorite = (id) => {
+      dispatch(favorite(id))
     }
 
-
-    useEffect(()=> {
-       getData();
-    },[])
+    const handleBeefFavorite = (id) => {
+      dispatch(beefFavorite(id))
+    }
 
     return (
         <div className='home-container'>
@@ -33,7 +48,7 @@ export default function SavedRecips() {
                 </div>
             </nav>
             <div className='d-flex flex-wrap justify-content-center gap-5'>
-            {state.map((reciep) => {
+            {selector.map((reciep) => {
             return <div className='reciep-container' key={reciep.idMeal}>
               <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
 
@@ -42,7 +57,23 @@ export default function SavedRecips() {
               <div className='d-flex justify-space-between'>
                 <div></div>
                 <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
-                {reciep.isFavorite ? <div><Icon.BookmarkFill className='text-danger' height={32} width={30}/></div> : <div><Icon.Bookmark height={32} width={30} /></div>}
+                {reciep.isFavorite ? <div><Icon.BookmarkFill className='text-danger' height={32} width={30} onClick={() => {handleFavorite(reciep.idMeal)}}/></div> : <div><Icon.Bookmark height={32} width={30} onClick={() => {handleFavorite(reciep.idMeal)}} /></div>}
+              </div>
+
+            </div>
+          })}
+          </div>
+          <div className='d-flex flex-wrap justify-content-center gap-5'>
+            {savedBeef.map((reciep) => {
+            return <div className='reciep-container' key={reciep.idMeal}>
+              <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
+
+              <p>{reciep.strMeal}</p>
+
+              <div className='d-flex justify-space-between'>
+                <div></div>
+                <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
+                {reciep.isFavorite ? <div><Icon.BookmarkFill className='text-danger' height={32} width={30} onClick={() => {handleBeefFavorite(reciep.idMeal)}}/></div> : <div><Icon.Bookmark height={32} width={30} onClick={() => {handleBeefFavorite(reciep.idMeal)}} /></div>}
               </div>
 
             </div>

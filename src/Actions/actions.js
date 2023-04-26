@@ -39,3 +39,20 @@ export const activeUser = (object) => {
     payload : object
   }
 }
+export const beefRecipes = (object) => {
+  return {
+    type : "BEEFRECIPES",
+    payload: object
+  }
+}
+
+export const beefFavorite = (id) => {
+  return {
+    type : "BEEFFAVORITE",
+    payload: id
+  }
+}
+
+export const addBeefObject = () => {
+  return
+}

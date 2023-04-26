@@ -2,6 +2,7 @@ const initialState = {
     isLogin: false,
     savedRecipe: [],
     chickenRecipes: [],
+    beefRecipes : [],
     userdata:[{username:"Test",email:"test@gmail.com",password:"test"}],
     activeUser : {}
 };
@@ -28,6 +29,11 @@ const counterReducer = (state = initialState, action) => {
                 ...state,
                 chickenRecipes: action.payload
             }
+        case "BEEFRECIPES":
+            return {
+                ...state,
+                beefRecipes:action.payload
+            }
         case 'REGISTER':
             return {
                 ...state,
@@ -37,6 +43,16 @@ const counterReducer = (state = initialState, action) => {
             return {
                 ...state,
                 chickenRecipes: [...state.chickenRecipes.map(each => {
+                    if (each.idMeal === action.payload) {
+                        return {...each,isFavorite : !each.isFavorite}
+                    }
+                    return each
+                })]
+            }
+        case "BEEFFAVORITE":
+            return {
+                ...state,
+                beefRecipes: [...state.beefRecipes.map(each => {
                     if (each.idMeal === action.payload) {
                         return {...each,isFavorite : !each.isFavorite}
                     }

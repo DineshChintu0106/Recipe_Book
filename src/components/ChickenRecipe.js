@@ -3,7 +3,7 @@ import './main.css'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import * as Icon from 'react-bootstrap-icons'
-import { addObject, chickenRecipes,favorite } from '../Actions/actions';
+import { addObject, chickenRecipes, favorite } from '../Actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -81,11 +81,12 @@ export default function ChickenRecipe(props) {
       dispatch(favorite(id));
       resolve();
     })
-    promise.then(()=> {
-      selector.map((each) => {
+    promise.then(() => {
+      selector.filter((each) => {
         if (each.isFavorite) {
           dispatch(addObject(each))
         }
+        return dispatch(addObject(each))
       })
     })
   }
