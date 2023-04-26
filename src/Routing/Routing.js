@@ -14,6 +14,7 @@ export default class Routing extends Component {
             <div>
                 <Routes>
                     <Route exact path='/' Component={Login}/>
+                    <Route exact path='/Reciep_book' Component={Login}/> 
                     <Route exact path='/login' Component={Login}/>
                     <Route exact path='/register' Component={Register}/>
                     <Route exact path='/home' Component={Home}/>
