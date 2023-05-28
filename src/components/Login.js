@@ -75,7 +75,7 @@ function Login() {
     return (
         <div className='login-container'>
             <div className='login'>
-                <h1 className='heading'>Login</h1>
+                <h1 className='heading'>login</h1>
                 <form onSubmit={handleLogin} className='d-flex flex-column justify-content-center gap-3'>
                     <div className="form-group">
                         <label htmlFor="email">Email address:</label>
