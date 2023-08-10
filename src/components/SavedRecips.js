@@ -14,6 +14,9 @@ export default function SavedRecips() {
   const seafood = useSelector(state => state.seaFoodRecipes.filter(each => each.isFavorite === true))
   const vegetarian = useSelector(state => state.vegetarianRecipes.filter(each => each.isFavorite === true))
   const starter = useSelector(state => state.starterRecipes.filter(each => each.isFavorite === true))
+
+  const saved = [...selector,...savedBeef,...seafood,...vegetarian,...starter]
+  
   const dispatch = useDispatch()
 
 
@@ -34,6 +37,10 @@ export default function SavedRecips() {
 
   const handleFavorite = (id) => {
     dispatch(favorite(id))
+    handleBeefFavorite(id)
+    handleseafoodFavorite(id)
+    handlevegetarianFavorite(id)
+    handlestarterFavorite(id)
   }
 
   const handleBeefFavorite = (id) => {
@@ -59,9 +66,9 @@ export default function SavedRecips() {
           <Link to={'/profile'} className='links'>Profile</Link>
         </div>
       </nav>
-      {(selector.length === 0 && savedBeef.length === 0 && seafood.length === 0 && vegetarian.length === 0 && starter.length === 0) ? <h1 className='text-light text-center'>No saved recipes</h1> : <div>
+      {(saved.length === 0) ? <h1 className='text-light text-center'>No saved recipes</h1> : <div>
         <div className='d-flex flex-wrap justify-content-center gap-5'>
-          {selector.map((reciep) => {
+          {saved.map((reciep) => {
             return <div className='reciep-container' key={reciep.idMeal}>
               <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
 
@@ -76,74 +83,7 @@ export default function SavedRecips() {
             </div>
           })}
         </div>
-        <div className='d-flex flex-wrap justify-content-center gap-5'>
-          {savedBeef.map((reciep) => {
-            return <div className='reciep-container' key={reciep.idMeal}>
-              <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
-
-              <p>{reciep.strMeal}</p>
-
-              <div className='d-flex justify-space-between'>
-                <div></div>
-                <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
-                {reciep.isFavorite ? <div><Icon.BookmarkFill className='text-danger' height={32} width={30} onClick={() => { handleBeefFavorite(reciep.idMeal) }} /></div> : <div><Icon.Bookmark height={32} width={30} onClick={() => { handleBeefFavorite(reciep.idMeal) }} /></div>}
-              </div>
-
-            </div>
-
-          })}
-        </div>
-        <div className='d-flex flex-wrap justify-content-center gap-5'>
-          {seafood.map((reciep) => {
-            return <div className='reciep-container' key={reciep.idMeal}>
-              <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
-
-              <p>{reciep.strMeal}</p>
-
-              <div className='d-flex justify-space-between'>
-                <div></div>
-                <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
-                {reciep.isFavorite ? <div><Icon.BookmarkFill className='text-danger' height={32} width={30} onClick={() => { handleseafoodFavorite(reciep.idMeal) }} /></div> : <div><Icon.Bookmark height={32} width={30} onClick={() => { handleseafoodFavorite(reciep.idMeal) }} /></div>}
-              </div>
-
-            </div>
-
-          })}
-        </div>
-        <div className='d-flex flex-wrap justify-content-center gap-5'>
-          {vegetarian.map((reciep) => {
-            return <div className='reciep-container' key={reciep.idMeal}>
-              <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
-
-              <p>{reciep.strMeal}</p>
-
-              <div className='d-flex justify-space-between'>
-                <div></div>
-                <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
-                {reciep.isFavorite ? <div><Icon.BookmarkFill className='text-danger' height={32} width={30} onClick={() => { handlevegetarianFavorite(reciep.idMeal) }} /></div> : <div><Icon.Bookmark height={32} width={30} onClick={() => { handlevegetarianFavorite(reciep.idMeal) }} /></div>}
-              </div>
-
-            </div>
-
-          })}
-        </div>
-        <div className='d-flex flex-wrap justify-content-center gap-5'>
-          {starter.map((reciep) => {
-            return <div className='reciep-container' key={reciep.idMeal}>
-              <img src={reciep.strMealThumb} alt={reciep.idMeal} className='image-reciep' />
-
-              <p>{reciep.strMeal}</p>
-
-              <div className='d-flex justify-space-between'>
-                <div></div>
-                <Link to={`/recipedetails/${reciep.idMeal}`}><button className='btn btn-danger'>Get Details</button></Link>
-                {reciep.isFavorite ? <div><Icon.BookmarkFill className='text-danger' height={32} width={30} onClick={() => { handlestarterFavorite(reciep.idMeal) }} /></div> : <div><Icon.Bookmark height={32} width={30} onClick={() => { handlestarterFavorite(reciep.idMeal) }} /></div>}
-              </div>
-
-            </div>
-
-          })}
-        </div>
+    
       </div>}
 
 
